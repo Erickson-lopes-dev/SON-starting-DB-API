@@ -23,15 +23,27 @@ db.commit()
 
 cursor = db.cursor()
 
-cursor.execute("UPDATE pessoas SET nome='fernando', idade='10' WHERE id=6 ")
-
-db.commit()
+# linhas alteradas
+print(cursor.rowcount)
 
 # executa o método dentro do banco
 row_effected = cursor.execute('SELECT * FROM pessoas')
 
 # exibe linhas afetadas
 print(row_effected)
+
+
+def delete_item():
+    # deleta um item
+    cursor.execute("DELETE from pessoas WHERE id=5")
+    db.commit()
+
+
+def update_item():
+    # atualiza um determinado item na db
+    cursor.execute("UPDATE pessoas SET nome='fernandod', idade='10' WHERE id=6 ")
+
+    db.commit()
 
 
 def insert_item():
