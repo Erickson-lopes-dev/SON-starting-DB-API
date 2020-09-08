@@ -11,8 +11,10 @@ db = MySQLdb.connect(
     passwd=passwd,
     db=database,
     host=host,
-    port=port
+    port=port,
 
+    # commita automaticamente / preciso que desligue em casos de teste
+    autocommit=True
 )
 
 
@@ -89,10 +91,14 @@ def insert_multiplos():
     cursor = db.cursor()
     data = ('erickson', 14), ('daniel', 14), ('Renan', 18)
     cursor.executemany("INSERT INTO pessoas (nome, idade) VALUES (%s, %s)", (*data,))
+    # ultimo id no banco
+    print(cursor.lastrowid)
     db.commit()
 
 
 insert_multiplos()
+
+cursor = db.cursor()
 
 
 
