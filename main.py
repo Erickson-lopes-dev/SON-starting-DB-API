@@ -2,7 +2,7 @@ import MySQLdb
 
 user = 'root'
 passwd = ''
-database = 'rf_db_v'
+database = 'db_api'
 host = 'localhost'
 port = 3306
 
@@ -19,5 +19,14 @@ print('Conecxão feita com sucesso')
 db.commit()
 
 # limpa dados da memoria
-db.rollback()
+# db.rollback()
+
+cursor = db.cursor()
+# executa o método dentro do banco
+row_effected = cursor.execute('SELECT * FROM pessoas')
+
+print(row_effected)
+
+print(list(cursor))
+
 db.close()
