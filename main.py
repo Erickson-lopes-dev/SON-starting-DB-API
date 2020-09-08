@@ -25,8 +25,16 @@ cursor = db.cursor()
 # executa o método dentro do banco
 row_effected = cursor.execute('SELECT * FROM pessoas')
 
+# exibe linhas afetadas
 print(row_effected)
 
-print(list(cursor))
+# print(list(cursor))
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+for row in cursor:
+    print(row)
 
 db.close()
