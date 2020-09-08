@@ -28,13 +28,23 @@ row_effected = cursor.execute('SELECT * FROM pessoas')
 # exibe linhas afetadas
 print(row_effected)
 
-# print(list(cursor))
-rows = cursor.fetchall()
+# quantidades de linhas para buscar
+rows_fet = cursor.fetchmany(1)
 
-for row in rows:
-    print(row)
+print(rows_fet)
 
-for row in cursor:
-    print(row)
 
+# buscando todas as linhas
+def get_fetchall():
+    # print(list(cursor))
+    rows = cursor.fetchall()
+
+    for row in rows:
+        print(row)
+
+    for row in cursor:
+        print(row)
+
+
+# fecha banco
 db.close()
