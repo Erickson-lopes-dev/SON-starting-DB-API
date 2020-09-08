@@ -16,31 +16,38 @@ db = MySQLdb.connect(
 )
 
 
+# deletar por id
 def delete_item(id):
+    cursor = db.cursor()
     # deleta um item
     cursor.execute("DELETE from pessoas WHERE id=%s ", (id,))
     db.commit()
 
 
+# atualizar dados
 def update_item():
+    cursor = db.cursor()
     # atualiza um determinado item na db
     cursor.execute("UPDATE pessoas SET nome='fernandod', idade='10' WHERE id=6 ")
 
     db.commit()
 
 
+# inserir dados
 def insert_item(data):
+    cursor = db.cursor()
     # inserir item
     cursor.execute("INSERT INTO "
                    "pessoas " "(nome, idade) "
                    "VALUES (%s, %s)",
-                   (*data, ))
+                   (*data,))
     # comita as alterações no banco
     db.commit()
 
 
 # exibindo quatidade de linhas especificadas
 def get_fetchaamy():
+    cursor = db.cursor()
     # quantidades de linhas para buscar
     rows_fet = cursor.fetchmany(1)
 
@@ -49,6 +56,7 @@ def get_fetchaamy():
 
 # buscando todas as linhas
 def get_fetchall():
+    cursor = db.cursor()
     # print(list(cursor))
     rows = cursor.fetchall()
 
@@ -59,28 +67,34 @@ def get_fetchall():
     #     print(row)
 
 
-print('Conecxão feita com sucesso')
-db.commit()
+# exibe todos os dados do banco
+def select_all():
+    cursor = db.cursor()
+    # executa o método dentro do banco
+    row_effected = cursor.execute('SELECT * FROM pessoas')
 
-# limpa dados da memoria
-# db.rollback()
-
-cursor = db.cursor()
-
-# linhas alteradas
-print(cursor.rowcount)
-
-insert_item(('José', 19))
+    # exibe linhas afetadas
+    print(row_effected)
 
 
-# executa o método dentro do banco
-row_effected = cursor.execute('SELECT * FROM pessoas')
+# remove os dados em memoria
+def remove_dados_memoria():
+    cursor = db.cursor()
+    # limpa dados da memoria
+    db.rollback()
 
-# exibe linhas afetadas
-print(row_effected)
+
+# inseri multiplas linhas
+def insert_multiplos():
+    cursor = db.cursor()
+    data = ('erickson', 14), ('daniel', 14), ('Renan', 18)
+    cursor.executemany("INSERT INTO pessoas (nome, idade) VALUES (%s, %s)", (*data,))
+    db.commit()
 
 
-get_fetchall()
+insert_multiplos()
+
+
 
 # fecha banco
 db.close()
