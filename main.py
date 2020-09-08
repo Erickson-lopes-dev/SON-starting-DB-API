@@ -6,7 +6,7 @@ database = 'rf_db_v'
 host = 'localhost'
 port = 3306
 
-MySQLdb.connect(
+db = MySQLdb.connect(
     user=user,
     passwd=passwd,
     db=database,
@@ -16,3 +16,8 @@ MySQLdb.connect(
 )
 
 print('Conecxão feita com sucesso')
+db.commit()
+
+# limpa dados da memoria
+db.rollback()
+db.close()
