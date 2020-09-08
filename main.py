@@ -15,27 +15,10 @@ db = MySQLdb.connect(
 
 )
 
-print('Conecxão feita com sucesso')
-db.commit()
 
-# limpa dados da memoria
-# db.rollback()
-
-cursor = db.cursor()
-
-# linhas alteradas
-print(cursor.rowcount)
-
-# executa o método dentro do banco
-row_effected = cursor.execute('SELECT * FROM pessoas')
-
-# exibe linhas afetadas
-print(row_effected)
-
-
-def delete_item():
+def delete_item(id):
     # deleta um item
-    cursor.execute("DELETE from pessoas WHERE id=5")
+    cursor.execute("DELETE from pessoas WHERE id=%s ", (id,))
     db.commit()
 
 
@@ -46,11 +29,12 @@ def update_item():
     db.commit()
 
 
-def insert_item():
+def insert_item(data):
     # inserir item
     cursor.execute("INSERT INTO "
                    "pessoas " "(nome, idade) "
-                   "VALUES ('Carlos', '24')")
+                   "VALUES (%s, %s)",
+                   (*data, ))
     # comita as alterações no banco
     db.commit()
 
@@ -71,8 +55,29 @@ def get_fetchall():
     for row in rows:
         print(row)
 
-    for row in cursor:
-        print(row)
+    # for row in cursor:
+    #     print(row)
+
+
+print('Conecxão feita com sucesso')
+db.commit()
+
+# limpa dados da memoria
+# db.rollback()
+
+cursor = db.cursor()
+
+# linhas alteradas
+print(cursor.rowcount)
+
+insert_item(('José', 19))
+
+
+# executa o método dentro do banco
+row_effected = cursor.execute('SELECT * FROM pessoas')
+
+# exibe linhas afetadas
+print(row_effected)
 
 
 get_fetchall()
