@@ -20,7 +20,6 @@ db = MySQLdb.connect(
 
 # deletar por id
 def delete_item(id):
-    cursor = db.cursor()
     # deleta um item
     cursor.execute("DELETE from pessoas WHERE id=%s ", (id,))
     db.commit()
@@ -28,7 +27,6 @@ def delete_item(id):
 
 # atualizar dados
 def update_item():
-    cursor = db.cursor()
     # atualiza um determinado item na db
     cursor.execute("UPDATE pessoas SET nome='fernandod', idade='10' WHERE id=6 ")
 
@@ -37,7 +35,6 @@ def update_item():
 
 # inserir dados
 def insert_item(data):
-    cursor = db.cursor()
     # inserir item
     cursor.execute("INSERT INTO "
                    "pessoas " "(nome, idade) "
@@ -49,7 +46,6 @@ def insert_item(data):
 
 # exibindo quatidade de linhas especificadas
 def get_fetchaamy():
-    cursor = db.cursor()
     # quantidades de linhas para buscar
     rows_fet = cursor.fetchmany(1)
 
@@ -58,7 +54,6 @@ def get_fetchaamy():
 
 # buscando todas as linhas
 def get_fetchall():
-    cursor = db.cursor()
     # print(list(cursor))
     rows = cursor.fetchall()
 
@@ -71,7 +66,6 @@ def get_fetchall():
 
 # exibe todos os dados do banco
 def select_all():
-    cursor = db.cursor()
     # executa o método dentro do banco
     row_effected = cursor.execute('SELECT * FROM pessoas')
 
@@ -81,14 +75,12 @@ def select_all():
 
 # remove os dados em memoria
 def remove_dados_memoria():
-    cursor = db.cursor()
     # limpa dados da memoria
     db.rollback()
 
 
 # inseri multiplas linhas
 def insert_multiplos():
-    cursor = db.cursor()
     data = ('erickson', 14), ('daniel', 14), ('Renan', 18)
     cursor.executemany("INSERT INTO pessoas (nome, idade) VALUES (%s, %s)", (*data,))
     # ultimo id no banco
@@ -96,11 +88,18 @@ def insert_multiplos():
     db.commit()
 
 
-insert_multiplos()
-
 cursor = db.cursor()
 
-
+# tenta executar
+try:
+    # tenta inserir um comando no banco
+    insert_multiplos()
+except:
+    # caso de algo errado ele limpa a memoria evitando erros no banco de dados
+    db.rollback()
+else:
+    # caso ocorra tudo certo, executa todas as funções
+    db.commit()
 
 # fecha banco
 db.close()
